@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+    <title>Tree Manager</title>
+    <script src="demo/jquery-2.2.2.js"></script>
+    <script src="demo/angular.1.2.29.js"></script>
+    <script src="demo/bootstrap.3.1.1.js"></script>
+    <script src="demo/ui-bootstrap-tpls.0.11.2.js"></script>
+    <script src="demo/prettify.1.0.1.js"></script>
+
+    <link  href="demo/bootstrap.3.1.1.css" rel="stylesheet" type="text/css">
+    <link  href="demo/prettify-style.css" rel="stylesheet" type="text/css">
+
+    <script src="angular-tree-control.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/tree-control.css">
+    <link rel="stylesheet" type="text/css" href="css/tree-control-attribute.css">
+</head>
+<body ng-app="example">
+<div class="header">
+    <div class="head-container">
+        <h1>Tree Manager</h1>
+    </div>
+</div>
+<div class="row docs-body">
+<div class="col-md-9">
+
+<section id="treeManager" ng-controller="Hello">
+    <div>
+		<treecontrol class="tree-classic" tree-model="treedata" options="opts" on-selection="showSelected(node)">
+			Id: {{node.id}} value={{node.value}}
+		</treecontrol>
+	</div>
+	<p>Selected node: <code>{{selectedNode?selectedNode.id:"N/A"}}</code></p>
+	<button class="delete-button" ng-click="delete()">
+		Delete
+	</button>
+	<br/>
+	<button class="change-value-button" ng-click="changeValue()">
+		Change value
+	</button>
+	<input class="change-value-input" ng-model="value">
+	</input>
+	<br/>
+	<button class="add-node-button" ng-click="addNode()">
+		Add node
+	</button>
+	<input class="add-node-input" ng-model="desiredValue">
+	</input>
+	
+	<script>
+	"use strict";
+		 function Hello($scope, $http) {
+
+			$http.get('api/node').
+			success(function(data) {
+				$scope.treedata = [data];
+			});
+
+			$scope.delete = function() {
+				if($scope.hasOwnProperty('selectedNode')){
+				  $http.delete('api/node/' + $scope.selectedNode.id).
+					success(function(data) {
+						$scope.treedata = [data];
+						$scope.selectedNode = null;
+					});
+				}
+			};
+
+			$scope.changeValue = function() {
+				if($scope.hasOwnProperty('selectedNode')){
+					if($scope.selectedNode != null) {
+						$http.put('api/node/' + $scope.selectedNode.id + '?value=' + $scope.value).
+						success(function(data) {
+							$scope.treedata = [data];
+							$scope.selectedNode.selected = false;
+							$scope.selectedNode = null;
+							$scope.value = '';
+						});
+					}
+				}
+			};
+
+			$scope.addNode = function() {
+				if($scope.hasOwnProperty('selectedNode')){
+					if($scope.selectedNode != null) {
+						$http.post('api/node?parentNodeId=' + $scope.selectedNode.id + '&desiredValue=' + $scope.desiredValue).
+						success(function(data) {
+							$scope.treedata = [data];
+							$scope.selectedNode.selected = false;
+							$scope.selectedNode = null;
+							$scope.desiredValue = '';
+						});
+					}
+				}
+			};
+
+			$scope.showSelected = function(sel) {
+                $scope.selectedNode = sel;
+            };
+		}
+	</script>
+</section>
+
+<script>
+    var example = angular.module("example", ["treeControl", "ui.bootstrap", "template/tabs/tab.html", "template/tabs/tabset.html"]);
+</script>
+
+</body>
+</html>
