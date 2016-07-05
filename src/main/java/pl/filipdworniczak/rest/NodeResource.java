@@ -15,7 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Created by Aniołek on 2016-07-02.
+ * Created by FilipDworniczak on 2016-07-02.
  */
 
 @RestController
@@ -50,7 +50,6 @@ public class NodeResource {
             nodeRepository.delete(id);
             entityManager.flush();
             entityManager.clear();
-            System.out.println("Deleted node id: " + id);
         }
 
         Node rootNode = nodeRepository.findOne(1L);
@@ -66,9 +65,6 @@ public class NodeResource {
         Node node = nodeRepository.findOne(id);
         if(node != null) {
             node.setDesiredValue(desiredValue);
-            entityManager.flush();
-            entityManager.clear();
-            System.out.println("Changed desiredValue id: " + id + ", new value: " + desiredValue);
         }
 
         Node rootNode = nodeRepository.findOne(1L);
@@ -81,14 +77,12 @@ public class NodeResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<NodeDTO> addNode(@RequestParam(required = true, value = "parentNodeId") long id, @RequestParam(required = true, value = "desiredValue") int desiredValue) {
-        //Node node = nodeRepository.findOne(id);
         Node parentNode = nodeRepository.findOne(id);
         if(parentNode != null) {
             Node node = new Node(parentNode, desiredValue);
             nodeRepository.save(node);
             entityManager.flush();
             entityManager.clear();
-            System.out.println("Saved node id: " + id + ",  desiredValue: " + desiredValue);
         }
 
         Node rootNode = nodeRepository.findOne(1L);

@@ -8,10 +8,10 @@ import pl.filipdworniczak.database.entity.Node;
 import pl.filipdworniczak.database.repository.NodeRepository;
 
 @SpringBootApplication
-public class DemoApplication {
+public class TreeManager {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(TreeManager.class, args);
 	}
 
 	@Bean

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Aniołek on 2016-07-02.
+ * Created by FilipDworniczak on 2016-07-02.
  */
 
 @Entity

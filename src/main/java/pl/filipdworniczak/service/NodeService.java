@@ -1,16 +1,14 @@
 package pl.filipdworniczak.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.filipdworniczak.database.entity.Node;
 import pl.filipdworniczak.rest.dto.NodeDTO;
 
 /**
- * Created by Aniołek on 2016-07-03.
+ * Created by FilipDworniczak on 2016-07-03.
  */
 
 @Service
-@Transactional
 public class NodeService {
 
     public NodeDTO transformToNodeDTO(Node node) {

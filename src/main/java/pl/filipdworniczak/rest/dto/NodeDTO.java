@@ -1,12 +1,10 @@
 package pl.filipdworniczak.rest.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Aniołek on 2016-07-02.
+ * Created by FilipDworniczak on 2016-07-02.
  */
 public class NodeDTO {
     private long id;
