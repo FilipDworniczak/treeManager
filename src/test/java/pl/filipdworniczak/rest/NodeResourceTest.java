@@ -62,6 +62,20 @@ public class NodeResourceTest extends TreeManagerTests {
     }
 
     @Test
+    public void testDeleteNodeRoot() throws Exception {
+        restNodeMockMvc.perform(delete("/api/node/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testDeleteNodeNotExists() throws Exception {
+        restNodeMockMvc.perform(delete("/api/node/15")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void testChangeDesiredValue() throws Exception {
         MvcResult mvcResult = restNodeMockMvc.perform(put("/api/node/1?value=7")
                 .accept(MediaType.APPLICATION_JSON))
@@ -74,6 +88,13 @@ public class NodeResourceTest extends TreeManagerTests {
     }
 
     @Test
+    public void testChangeDesiredValueNodeNotExists() throws Exception {
+        restNodeMockMvc.perform(put("/api/node/15?value=7")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void testAddNode() throws Exception {
         MvcResult mvcResult = restNodeMockMvc.perform(post("/api/node?parentNodeId=6&desiredValue=15")
                 .accept(MediaType.APPLICATION_JSON))
@@ -83,5 +104,12 @@ public class NodeResourceTest extends TreeManagerTests {
         String json = mvcResult.getResponse().getContentAsString();
         String expectedJson = IOUtils.toString(TreeManagerTests.class.getResourceAsStream("/rest/addNodeResponse.json"));
         Assert.assertEquals(expectedJson, json);
+    }
+
+    @Test
+    public void testAddNodeParentNotExists() throws Exception {
+        restNodeMockMvc.perform(post("/api/node?parentNodeId=15&desiredValue=15")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 }
