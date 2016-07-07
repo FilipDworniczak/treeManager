@@ -30,21 +30,25 @@
 			Id: {{node.id}} value={{node.value}}
 		</treecontrol>
 	</div>
+
 	<p>Selected node: <code>{{selectedNode?selectedNode.id:"N/A"}}</code></p>
-	<button class="delete-button" ng-click="delete()">
+
+	<button class="delete-button" ng-click="delete()" style="width:120px;">
 		Delete
 	</button>
 	<br/>
-	<button class="change-value-button" ng-click="changeValue()">
+
+	<button class="change-value-button" ng-click="changeValue()" style="width:120px;">
 		Change value
 	</button>
-	<input class="change-value-input" ng-model="value">
+	<input class="change-value-input" ng-model="value" placeholder="New value">
 	</input>
 	<br/>
-	<button class="add-node-button" ng-click="addNode()">
+
+	<button class="add-node-button" ng-click="addNode()" style="width:120px;">
 		Add node
 	</button>
-	<input class="add-node-input" ng-model="desiredValue">
+	<input class="add-node-input" ng-model="desiredValue" placeholder="Desired value">
 	</input>
 	
 	<script>
