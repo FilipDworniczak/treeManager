@@ -8,15 +8,19 @@ import java.util.Collection;
  */
 
 @Entity
+@Table(name="NODES")
 public class Node {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
+    @Column(name = "desired_value")
     private Integer desiredValue;
 
     @ManyToOne
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private Node parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
